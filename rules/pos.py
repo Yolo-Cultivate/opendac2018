@@ -8,7 +8,7 @@ from collections import defaultdict
 sys.path.append('../')
 from settings import pubs_train_path, pubs_validate_path, pos_pair_path, \
     rule_check_file_path, assignments_train_path, CPU_COUNT, TEST_PATH, \
-    assignments_val_path
+    assignments_val_path, OUTPUT_DIR
 import multiprocessing as mlp
 
 # VAL_PATH, VAL_NAME2PUB, OUTPUT_DIR, TRAIN_NAME2PUB,\
@@ -156,8 +156,9 @@ def generate_positive_pair(mode=0):
     pubs_test = json.load(open(TEST_PATH))
     data = {**pubs_train, **pubs_validate, **pubs_test}
 
-    pool = mlp.Pool(CPU_COUNT)
+    pool = mlp.Pool(3)
     pos_pair = dict(zip(data.keys(), pool.map(work_for, data.values())))
 
+    os.mkdir(OUTPUT_DIR, exist_ok=True)
     json.dump(pos_pair, open(pos_pair_path, 'w'))
     return pos_pair
