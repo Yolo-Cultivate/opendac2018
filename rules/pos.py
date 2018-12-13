@@ -159,6 +159,6 @@ def generate_positive_pair(mode=0):
     pool = mlp.Pool(3)
     pos_pair = dict(zip(data.keys(), pool.map(work_for, data.values())))
 
-    os.mkdir(OUTPUT_DIR, exist_ok=True)
+    os.mkdirs(OUTPUT_DIR, exist_ok=True)
     json.dump(pos_pair, open(pos_pair_path, 'w'))
     return pos_pair
